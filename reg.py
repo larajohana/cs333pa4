@@ -33,6 +33,17 @@ def get_courses(search):
         print(table,file = sys.stderr)
         sys.exit(2)
 
+def get_details(classid):
+    details = []
+    _, details = database.get_details(classid)
+    try:
+        if _: 
+            raise Exception(_, details)    
+    except Exception as details:
+        print(details,file = sys.stderr)
+        sys.exit(2)
+
+    return details
 
 def check_req(dept, coursenum, area, title):
     if dept is None:
@@ -55,9 +66,8 @@ def search_form():
     return response
 
 
-
 @app.route('/searchform', methods = ['GET'])
-def search_results():
+def course():
     dept = flask.request.args.get('dept')
     coursenum = flask.request.args.get('coursenum')
     area = flask.request.args.get('area')
@@ -75,6 +85,21 @@ def search_results():
 
     html_code = flask.render_template(
             'courses.html', courses = courses)
+    response = flask.make_response(html_code)
+    return response
+
+
+
+
+@app.route('/regdetails', methods = ['GET'])
+def regdetails():
+    classid = flask.request.args.get('classid')
+    details = []
+    details = get_details(classid)
+
+    html_code = flask.render_template(
+        'regdetails.html', details=details, classid=classid)
+
     response = flask.make_response(html_code)
     return response
 

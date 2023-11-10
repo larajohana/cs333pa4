@@ -133,18 +133,18 @@ def get_details(search):
                 det_table = cursor.fetchone()
                 area, title, descrip, prereqs = det_table
 
-                if area is None:
-                    area.append("(None) ")
+                if area:
+                    area= str(area)
                 else:
-                    area = str(area)
+                    area = "(None)"
 
                 title = str(title)
                 descrip = str(descrip)
 
-                if prereqs is None:
-                    prereqs.append("(None are listed)")
-                else:
+                if prereqs:
                     prereqs = str(prereqs)
+                else:
+                    prereqs = "(None are listed)"
 
                 # Professor query
                 prof  = "SELECT profname "
@@ -156,6 +156,7 @@ def get_details(search):
                 cursor.execute(prof, classid)
                 prof_names = cursor.fetchall()
 
+                prof_names = []
                 if prof_names:
                     for prof in prof_names:
                         prof_names = prof[0]
