@@ -1,0 +1,24 @@
+<table class = "table table-striped">
+    <thead>
+        <tr>
+            <th>Class ID</th> 
+            <th>Dept</th> 
+            <th>Num</th> 
+            <th>Area</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for course in courses: %}
+    <tr>
+        <td><a
+            href="/details?classid={{course[0]}}">
+            {{ course[0] }}</a></td>
+        <td>{{ course[1] }}</td>
+        <td>{{ course[2] }}</td>
+        <td>{{ course[3]}}</td>
+        <td>{{ course[4]}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
