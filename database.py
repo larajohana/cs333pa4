@@ -112,6 +112,7 @@ def get_details(search):
                 coursename += ("AND classes.courseid "
                                 "= crosslistings.courseid ")
                 coursename += "AND classid = ? "
+                coursename += "ORDER BY dept, coursenum"
 
                 cursor.execute(coursename, classid)
                 course_table = cursor.fetchall()
@@ -121,7 +122,7 @@ def get_details(search):
                     dept_and_number.append(
                         str(dept) + " " + str(coursenum))
 
-                # Department and course number query
+                # area query
                 details = "SELECT area, title, descrip, prereqs "
                 details += "FROM courses, classes, crosslistings "
                 details += "WHERE classes.courseid = courses.courseid "
@@ -154,12 +155,13 @@ def get_details(search):
                 prof += "AND classid = ? "
 
                 cursor.execute(prof, classid)
-                prof_names = cursor.fetchall()
+                prof_results = cursor.fetchall()
 
                 prof_names = []
-                if prof_names:
-                    for prof in prof_names:
-                        prof_names = prof[0]
+                if prof_results:
+                    for prof in prof_results:
+                        prof_names.append(prof[0])
+                        ##prof_names = prof[0]
                 else:
                     prof_names = " "
 

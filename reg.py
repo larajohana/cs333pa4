@@ -88,20 +88,36 @@ def course():
     response = flask.make_response(html_code)
     return response
 
+#----------------------------------------------------------------------
 
 
 
 @app.route('/regdetails', methods = ['GET'])
 def regdetails():
     classid = flask.request.args.get('classid')
+    if not classid.isdigit():
+        return flask.redirect(flask.url_for('error', message='non-integer classid'))
+
     details = []
     details = get_details(classid)
 
     html_code = flask.render_template(
         'regdetails.html', details=details, classid=classid)
 
+    
+
     response = flask.make_response(html_code)
     return response
 
 #----------------------------------------------------------------------
 
+@app.route('/error')
+def error():
+    # Get the error message from the query parameters
+    error_message = flask.request.args.get('message', 'Unknown Error')
+
+    # Render the error template with the error message
+    html_code = flask.render_template('error.html', error_message=error_message)
+
+    response = flask.make_response(html_code)
+    return response
