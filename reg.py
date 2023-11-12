@@ -95,19 +95,27 @@ def course():
 @app.route('/regdetails', methods = ['GET'])
 def regdetails():
     classid = flask.request.args.get('classid')
+    if not classid:
+        return flask.redirect(flask.url_for('error', message='missing classid'))
     if not classid.isdigit():
         return flask.redirect(flask.url_for('error', message='non-integer classid'))
 
-    details = []
-    details = get_details(classid)
+    try:
+        details = []
+        details = get_details(classid)
 
-    html_code = flask.render_template(
-        'regdetails.html', details=details, classid=classid)
+        html_code = flask.render_template(
+            'regdetails.html', details=details, classid=classid)
 
+        response = flask.make_response(html_code)
+        return response
     
+    except Exception as e:
+        print(e, file=sys.stderr)
+        error_message = 'A server error occurred. Please contact the system administrator.'
+        return flask.render_template('error.html', message=error_message)
+        
 
-    response = flask.make_response(html_code)
-    return response
 
 #----------------------------------------------------------------------
 
@@ -117,7 +125,7 @@ def error():
     error_message = flask.request.args.get('message', 'Unknown Error')
 
     # Render the error template with the error message
-    html_code = flask.render_template('error.html', error_message=error_message)
+    html_code = flask.render_template('error.html', message=error_message)
 
     response = flask.make_response(html_code)
     return response
