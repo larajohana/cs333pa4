@@ -124,7 +124,7 @@ def regdetails():
 @app.route('/error')
 def error():
     # Get the error message from the query parameters
-    error_message = flask.request.args.get('message', 
+    error_message = flask.request.args.get('message',
                                            'Unknown Error')
 
     # error template with the error message
