@@ -110,6 +110,13 @@ def regdetails():
 
         response = flask.make_response(html_code)
         return response
+    
+    except SystemExit as ex:
+        print(ex, file=sys.stderr)
+        # display error message for missing id
+        return flask.redirect(flask.url_for('error', message='Class id does not exist'))
+
+
 
     except Exception as ex:
         print(ex, file=sys.stderr)
