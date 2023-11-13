@@ -17,7 +17,7 @@ def get_courses(search):
     courses = []
 
     try:
-        if _: 
+        if _:
             raise Exception(_, table)
 
         if table is not None:
@@ -37,8 +37,8 @@ def get_details(classid):
     details = []
     _, details = database.get_details(classid)
     try:
-        if _: 
-            raise Exception(_, details)    
+        if _:
+            raise Exception(_, details)
     except Exception as details:
         print(details,file = sys.stderr)
         sys.exit(2)
@@ -75,10 +75,10 @@ def course():
 
     dept, coursenum, area, title = check_req(
         dept, coursenum, area, title)
-    
+
     search = {"dept": dept, "coursenum": coursenum,
                 "area": area, "title": title}
-    
+
     courses = []
     courses = get_courses(search)
 
@@ -96,9 +96,11 @@ def course():
 def regdetails():
     classid = flask.request.args.get('classid')
     if not classid:
-        return flask.redirect(flask.url_for('error', message='missing classid'))
+        return flask.redirect(flask.url_for('error',
+                                        message='missing classid'))
     if not classid.isdigit():
-        return flask.redirect(flask.url_for('error', message='non-integer classid'))
+        return flask.redirect(flask.url_for('error',
+                                        message='non-integer classid'))
 
     try:
         details = []
@@ -110,10 +112,12 @@ def regdetails():
         response = flask.make_response(html_code)
         return response
     
-    except Exception as e:
-        print(e, file=sys.stderr)
-        error_message = 'A server error occurred. Please contact the system administrator.'
-        return flask.render_template('error.html', message=error_message)
+    except Exception as ex:
+        print(ex, file=sys.stderr)
+        error_message = [
+    'A server error occurred. Please contact the system administrator.']
+        return flask.render_template('error.html', 
+                                     message=error_message)
         
 
 
@@ -122,10 +126,12 @@ def regdetails():
 @app.route('/error')
 def error():
     # Get the error message from the query parameters
-    error_message = flask.request.args.get('message', 'Unknown Error')
+    error_message = flask.request.args.get('message', 
+                                           'Unknown Error')
 
-    # Render the error template with the error message
-    html_code = flask.render_template('error.html', message=error_message)
+    # error template with the error message
+    html_code = flask.render_template('error.html', 
+                                      message=error_message)
 
     response = flask.make_response(html_code)
     return response
