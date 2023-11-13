@@ -2,10 +2,9 @@
 # reg.py
 # Authors: Maria Aguirre, Johana Lara
 #----------------------------------------------------------------------
-
+import sys
 import flask
 import database
-import sys
 
 #----------------------------------------------------------------------
 
@@ -111,14 +110,13 @@ def regdetails():
 
         response = flask.make_response(html_code)
         return response
-    
+
     except Exception as ex:
         print(ex, file=sys.stderr)
         error_message = [
     'A server error occurred. Please contact the system administrator.']
-        return flask.render_template('error.html', 
+        return flask.render_template('error.html',
                                      message=error_message)
-        
 
 
 #----------------------------------------------------------------------
@@ -130,7 +128,7 @@ def error():
                                            'Unknown Error')
 
     # error template with the error message
-    html_code = flask.render_template('error.html', 
+    html_code = flask.render_template('error.html',
                                       message=error_message)
 
     response = flask.make_response(html_code)
